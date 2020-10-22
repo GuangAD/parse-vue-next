@@ -5,8 +5,15 @@ import { EMPTY_OBJ, isArray, isIntegerKey, isMap } from '@vue/shared'
 // Conceptually, it's easier to think of a dependency as a Dep class
 // which maintains a Set of subscribers, but we simply store them as
 // raw Sets to reduce memory overhead.
+// 使用一个全局的WeakMap来存储所有target中的key的依赖关系
+// 从概念上讲，创建并维护一个Dep类用来收集依赖关系
+// 但是我们只将它们存储为Set以减少内存开销。
+
+// 存储key对应的依赖
 type Dep = Set<ReactiveEffect>
+// 存储对象的所有的key的依赖
 type KeyToDepMap = Map<any, Dep>
+// 存储全局的所有依赖关系
 const targetMap = new WeakMap<any, KeyToDepMap>()
 
 export interface ReactiveEffect<T = any> {
